@@ -25,3 +25,24 @@ body {
     text-wrap: balance;
   }
 }
+/* globals.css (or your preferred CSS file) */
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+h1 {
+  color: #333;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-gray-600 {
+  color: #4a4a4a;
+}
+

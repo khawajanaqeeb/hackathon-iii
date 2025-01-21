@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+import "./globals.css";
+import Header from "./components/Header";
+import Footer from "./components/Footer"
+import "bootstrap-icons/font/bootstrap-icons.css";
+import { Poppins } from "next/font/google";
+// import {Montserrat} from "next/font/google";
+// next.config.js or app/layout.js
+import "../app/fontawesome";
+
+
+
+const poppins= Poppins ({subsets:["latin"], weight:["400","700"]});
+// const montserrat= Montserrat ({subsets:["latin"], weight:["400","700"]});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,10 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={poppins.className} >
+        <Header font={poppins}/>
         {children}
+        <Footer/>
       </body>
     </html>
   );
