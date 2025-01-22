@@ -5,6 +5,8 @@ import Header from "./components/Header";
 import Footer from "./components/Footer"
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Poppins } from "next/font/google";
+
+import { CartProvider } from "@/context/CartContext";
 // import {Montserrat} from "next/font/google";
 // next.config.js or app/layout.js
 import "../app/fontawesome";
@@ -25,12 +27,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    
     <html lang="en">
+
       <body className={poppins.className} >
+      <CartProvider>
         <Header font={poppins}/>
         {children}
         <Footer/>
+        </CartProvider>
       </body>
     </html>
+   
   );
 }
