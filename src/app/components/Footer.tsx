@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <div className="bg-[#FFFFFF] py-8">
@@ -17,10 +19,18 @@ export default function Footer() {
           <div>
             <h2 className="text-base font-medium text-[#9F9F9F]">Links</h2>
             <ul className="mt-4 space-y-2 text-sm">
-            <li className="text-black font-medium"> Home</li> 
-              <li className="text-black font-medium">Shop</li>
-              <li className="text-black font-medium">About</li>
-              <li className="text-black font-medium">Contact</li>
+              <li className="text-black font-medium">
+                <Link href="/">Home</Link>
+              </li>
+              <li className="text-black font-medium">
+                <Link href="/shop">Shop</Link>
+              </li>
+              <li className="text-black font-medium">
+                <Link href="/about">About</Link>
+              </li>
+              <li className="text-black font-medium">
+                <Link href="/contact">Contact</Link>
+              </li>
             </ul>
           </div>
 
@@ -28,9 +38,15 @@ export default function Footer() {
           <div>
             <h2 className="text-base font-medium text-[#9F9F9F]">Help</h2>
             <ul className="mt-4 space-y-2 text-sm">
-              <li className="text-black font-medium">Payment Options</li>
-              <li className="text-black font-medium">Return</li>
-              <li className="text-black font-medium">Privacy Policies</li>
+              <li className="text-black font-medium">
+                <Link href="/checkout">Payment Options</Link>
+              </li>
+              <li className="text-black font-medium">
+                <Link href="/return">Return</Link>
+              </li>
+              <li className="text-black font-medium">
+                <Link href="/privacy-policy">Privacy Policies</Link>
+              </li>
             </ul>
           </div>
 

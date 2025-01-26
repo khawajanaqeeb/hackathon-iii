@@ -1,6 +1,6 @@
 import Image from "next/image";
 import LastSection from "../components/Lastsection";
-
+import Link from "next/link";
 
 export default function Checkout() {
     return (
@@ -13,9 +13,9 @@ export default function Checkout() {
                 <Image src="/mh.png" width={50} height={41} className="absolute w-[50px] h-[41px] top-[35%] left-[50%] transform -translate-x-1/2 -translate-y-1/2" alt="Icon" />
                 <h2 className="absolute text-5xl font-medium text-black top-[40%] left-[50%] transform -translate-x-1/2">Checkout</h2>
                 <div className="absolute top-[58%] left-[50%] transform -translate-x-1/2">
-                  <h3 className="inline text-black">Home</h3>
+                  <h3 className="inline text-black"> <Link href="/.">  Home </Link></h3>
                   <Image src="/arw.png" alt="arrow" width={20} height={20} className="inline mx-2" />
-                  <h3 className="inline text-base font-light">Checkout</h3>
+                  <h3 className="inline text-base font-light"><Link href="/checkout">  CheckOut </Link></h3>
                 </div>
               </div>
       <div className="max-w-7xl mt-10 mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 ">

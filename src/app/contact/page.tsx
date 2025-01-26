@@ -1,8 +1,9 @@
 // app/contact/page.tsx
 import React from "react";
 import Image from "next/image";
-import ContactInfo from "@/app/components/ContactInfo";
+import ContactInfo from "../components/ContactInfo";
 import LastSection from "../components/Lastsection";
+import Link from "next/link";
 
 export default function Contact() {
   return (
@@ -19,9 +20,9 @@ export default function Contact() {
         />
         <h2 className="absolute text-5xl font-medium top-20 left-1/2 transform -translate-x-1/2 text-black">Contact</h2>
         <div className="absolute flex items-center space-x-2 top-40 left-1/2 transform -translate-x-1/2">
-          <h3 className="text-black">Home</h3>
+          <h3 className="text-black"><Link href="./">Home </Link></h3>
           <Image src="/arw.png" alt="arrow" width={20} height={20} />
-          <h3 className="text-gray-500">Contact</h3>
+          <h3 className="text-gray-500"> <Link href="./contact">Contact </Link></h3>
         </div>
       </div>
 

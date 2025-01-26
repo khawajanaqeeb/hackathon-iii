@@ -2,6 +2,7 @@
 import { useCart } from '@/context/CartContext'; 
 import Image from "next/image";
 import LastSection from "../components/Lastsection";
+import Link from 'next/link';
 
 export default function Cart() {
   const { cart, removeFromCart, updateQuantity } = useCart();
@@ -24,9 +25,9 @@ export default function Cart() {
         />
         <h2 className="absolute text-5xl font-medium top-20 left-1/2 transform -translate-x-1/2 text-black">Cart</h2>
         <div className="absolute flex items-center space-x-2 top-36 left-1/2 transform -translate-x-1/2">
-          <h3 className="text-black">Home</h3>
+          <h3 className="text-black"> <Link href="/.">  Home </Link> </h3>
           <Image src="/arw.png" alt="arrow" width={20} height={20} />
-          <h3 className="text-gray-500">Cart</h3>
+          <h3 className="text-gray-500"><Link href="/cart">  Cart </Link></h3>
         </div>
       </div>
 
@@ -104,7 +105,7 @@ export default function Cart() {
             </div>
           </div>
           <button className="w-[222px] h-[59px] mt-4 sm:mt-6 border-[1px] border-black text-black py-2 rounded-[15px] text-xl font-normal sm:text-base">
-            Check Out
+           <Link href="/checkout">Check Out</Link> 
           </button>
         </div>
       </div>

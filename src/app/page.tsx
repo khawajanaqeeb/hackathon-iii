@@ -1,5 +1,8 @@
+
+import React from "react";
+
 import Image from "next/image";
-import OurProducts from "./components/Ourproducts";
+import OurProducts from "./components/OurProducts";
 
 
 export default function Home() {

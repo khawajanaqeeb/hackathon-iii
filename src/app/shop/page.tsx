@@ -1,6 +1,6 @@
 import Image from "next/image";
 import LastSection from "../components/Lastsection";
-import OurProducts from "../components/Ourproducts";
+import Link from "next/link";
 
 
 export default function Shop() {
@@ -10,11 +10,18 @@ export default function Shop() {
       <div className="relative w-full h-[316px]">
         <Image src="/shop1.png" alt="Shop Background" fill className="object-cover" />
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-          <h2 className="text-5xl font-medium text-black">Shop</h2>
+        <Image
+                  src="/mh.png"
+                  className="absolute w-[50px] h-[41px] top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                  alt="Logo"
+                  width={50}
+                  height={41}
+                />
+          <h2 className="text-5xl mt-5 font-medium text-black">Shop</h2>
           <div className="flex items-center justify-center mt-2 gap-2">
-            <span className="text-black">Home</span>
+            <span className="text-black"><Link href="/.">  Home </Link></span>
             <Image src="/arw.png" alt="Arrow" width={20} height={20} />
-            <span className="text-black">Shop</span>
+             <span className="text-black"> <Link href="/shop">Shop</Link> </span> 
           </div>
         </div>
       </div>
@@ -34,8 +41,7 @@ export default function Shop() {
         </div>
       </div>
 
-      {/* Product Grid */}
-      <OurProducts/>
+      
       <LastSection/>
     </div>
   );

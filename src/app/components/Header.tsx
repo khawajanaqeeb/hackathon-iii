@@ -43,9 +43,9 @@ export default function Header(data: any) {
 
         {/* Icons Section */}
         <div className="flex items-center gap-4">
-          <i className="bi bi-person-exclamation text-xl md:text-2xl"></i>
-          <i className="bi bi-search text-xl md:text-2xl"></i>
-          <i className="bi bi-heart text-xl md:text-2xl"></i>
+        <Link href="/login"><i className="bi bi-person-exclamation text-xl md:text-2xl"></i></Link>
+        <Link href="/cart"><i className="bi bi-search text-xl md:text-2xl"></i></Link>
+        <Link href="/favorites"> <i className="bi bi-heart text-xl md:text-2xl"></i></Link>
           <Link href="/cart"><i className="bi bi-cart3 text-xl md:text-2xl" ></i></Link>
         </div>
       </div>
