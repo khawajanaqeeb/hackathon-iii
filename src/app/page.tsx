@@ -2,7 +2,8 @@
 import React from "react";
 
 import Image from "next/image";
-import OurProducts from "./components/OurProducts";
+// import OurProducts from "./components/ProductList";
+import ProductList from "./components/ProductList";
 
 
 export default function Home() {
@@ -54,12 +55,8 @@ export default function Home() {
       </div>
 
       {/* Our Products */}
-      <OurProducts/>
-        <div className="flex justify-center mt-8">
-          <button className="border border-[#B88E2F] text-[#B88E2F] px-8 py-3 font-medium rounded-md">
-            Show More
-          </button>
-        </div>
+      <ProductList/>
+        
       
 
       {/* Inspiration Section */}
@@ -88,11 +85,7 @@ export default function Home() {
               alt="Room 2" width={300} height={350}
               className=" lg:w-[300px] sm:w-[100px] md:w-[200px] h-[350px]"
             />
-            {/* <img
-              src="/r3.png"
-              alt="Room 3" width={200} height={300}
-              className="w-[200px] lg:w-[300px] h-auto"
-            /> */}
+            
           </div>
         </div>
       </div>

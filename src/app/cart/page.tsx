@@ -49,15 +49,15 @@ export default function Cart() {
                 </thead>
                 <tbody>
                   {cart.map((product) => (
-                    <tr className="border-t" key={product.slug}>
+                    <tr className="border-t" key={product.slug.current}>
                       <td className="py-4 px-2 sm:px-4 flex items-center">
-                        <Image
+                        {/* <Image
                           src={product.imageUrl}
                           alt={product.title}
                           width={108}
                           height={105}
                           className="w-12 h-12 sm:w-16 sm:h-16 rounded object-cover mr-2 sm:mr-4"
-                        />
+                        /> */}
                         <span className="font-medium text-sm sm:text-base">{product.title}</span>
                       </td>
                       <td className="py-4 px-2 sm:px-4 text-sm sm:text-base">Rs. {product.price}</td>
@@ -67,13 +67,13 @@ export default function Cart() {
                           value={product.quantity}
                           min="1"
                           className="w-10 sm:w-12 border rounded text-center text-sm sm:text-base"
-                          onChange={(e) => updateQuantity(product.slug, parseInt(e.target.value))}
+                          onChange={(e) => updateQuantity(product.slug.current, parseInt(e.target.value))}
                         />
                       </td>
                       <td className="py-4 px-2 sm:px-4 text-sm sm:text-base">Rs. {product.price * product.quantity}</td>
                       <td className="py-4 px-2 sm:px-4 text-sm sm:text-base">
                         <button
-                          onClick={() => removeFromCart(product.slug)}
+                          onClick={() => removeFromCart(product.slug.current)}
                           className="text-red-500 hover:text-red-700"
                         >
                           Remove

@@ -1,79 +1,92 @@
-// src/app/context/CartContext.tsx
+"use client";
 
-"use client"
-
+import { Product } from '@/types/Product';
 import { createContext, useContext, useState, ReactNode } from "react";
 
-// Define Product type
-type Product = {
-  title: string;
-  slug: string;
-  price: number;
-  imageUrl: string;
-  quantity: number;
-};
-
-type CartContextType = {
+interface CartContextType {
   cart: Product[];
-  favorites: Product[]; // Add favorites state
+  favorites: Product[];
   addToCart: (product: Product) => void;
-  addToFavorites: (product: Product) => void;
   removeFromCart: (slug: string) => void;
-  removeFromFavorites: (slug: string) => void;
   updateQuantity: (slug: string, quantity: number) => void;
+  addToFavorites: (product: Product) => void;
+  removeFromFavorites: (slug: string) => void;
   showPopup: boolean;
   setShowPopup: (show: boolean) => void;
-};
+  popupMessage: string;
+}
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cart, setCart] = useState<Product[]>([]); // State for the cart
-  const [favorites, setFavorites] = useState<Product[]>([]); // State for the favorites
+  const [cart, setCart] = useState<Product[]>([]);
+  const [favorites, setFavorites] = useState<Product[]>([]);
   const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [popupMessage, setPopupMessage] = useState<string>(''); 
 
-  const addToCart = (product: Product) => {
-    setCart((prevCart) => {
-      const existingProduct = prevCart.find((p) => p.slug === product.slug);
-      if (existingProduct) {
-        return prevCart.map((p) =>
-          p.slug === product.slug
-            ? { ...p, quantity: p.quantity + 1 }
-            : p
-        );
-      }
-      return [...prevCart, { ...product, quantity: 1 }];
-    });
+  const showPopupMessage = (message: string) => {
+    setPopupMessage(message);
     setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 3000);
+    setTimeout(() => setShowPopup(false), 3000); 
   };
 
-  const addToFavorites = (product: Product) => {
-    setFavorites((prevFavorites) => {
-      const existingProduct = prevFavorites.find((p) => p.slug === product.slug);
-      if (existingProduct) return prevFavorites; // Avoid duplicates
-      return [...prevFavorites, product];
-    });
+  const addToCart = (product: Product) => {
+    const existingProduct = cart.find((p) => p.slug.current === product.slug.current); 
+    if (existingProduct) {
+      setCart((prevCart) =>
+        prevCart.map((p) =>
+          p.slug.current === product.slug.current
+            ? { ...p, quantity: p.quantity + 1 }
+            : p
+        )
+      );
+    } else {
+      setCart((prevCart) => [...prevCart, { ...product, quantity: 1 }]);
+    }
+    showPopupMessage("Added to cart!");
   };
 
   const removeFromCart = (slug: string) => {
-    setCart((prevCart) => prevCart.filter((product) => product.slug !== slug));
-  };
-
-  const removeFromFavorites = (slug: string) => {
-    setFavorites((prevFavorites) => prevFavorites.filter((product) => product.slug !== slug));
+    setCart((prevCart) => prevCart.filter((product) => product.slug.current !== slug));
   };
 
   const updateQuantity = (slug: string, quantity: number) => {
     setCart((prevCart) =>
       prevCart.map((product) =>
-        product.slug === slug ? { ...product, quantity } : product
+        product.slug.current === slug 
+          ? { ...product, quantity } 
+          : product
       )
     );
   };
 
+  const addToFavorites = (product: Product) => {
+    const existingProduct = favorites.find((p) => p.slug.current === product.slug.current);
+    if (!existingProduct) {
+      setFavorites((prevFavorites) => [...prevFavorites, product]);
+      showPopupMessage("Added to favorites!");
+    }
+  };
+
+  const removeFromFavorites = (slug: string) => {
+    setFavorites((prevFavorites) => prevFavorites.filter((product) => product.slug.current !== slug));
+  };
+
   return (
-    <CartContext.Provider value={{ cart, favorites, addToCart, addToFavorites, removeFromCart, removeFromFavorites, updateQuantity, showPopup, setShowPopup }}>
+    <CartContext.Provider 
+      value={{ 
+        cart, 
+        favorites, 
+        addToCart, 
+        removeFromCart, 
+        updateQuantity, 
+        addToFavorites, 
+        removeFromFavorites, 
+        showPopup, 
+        setShowPopup, 
+        popupMessage 
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

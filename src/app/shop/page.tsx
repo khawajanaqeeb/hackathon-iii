@@ -1,6 +1,8 @@
 import Image from "next/image";
 import LastSection from "../components/Lastsection";
 import Link from "next/link";
+// import OurProducts from "../components/ProductList";
+import ProductList from "../components/ProductList";
 
 
 export default function Shop() {
@@ -40,7 +42,7 @@ export default function Shop() {
           <button className="px-4 py-2 border">Default</button>
         </div>
       </div>
-
+      <ProductList/>
       
       <LastSection/>
     </div>
