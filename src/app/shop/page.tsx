@@ -1,7 +1,6 @@
 import Image from "next/image";
 import LastSection from "../components/Lastsection";
 import Link from "next/link";
-// import OurProducts from "../components/ProductList";
 import ProductList from "../components/ProductList";
 
 
