@@ -4,9 +4,12 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Poppins } from "next/font/google";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import { CartProvider } from "@/context/CartContext"; // Ensure the import path is correct
+import { CartProvider } from "@/context/CartContext";
 import "../app/fontawesome";
+import {  ClerkProvider } from '@clerk/nextjs'
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -17,15 +20,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
+    <ClerkProvider>
     <html lang="en">
       <body className={poppins.className}>
-        {/* Ensure the CartProvider wraps the content */}
+      
+          
         <CartProvider>
           <Header font={poppins} />
-          {children} {/* This renders the dynamic page content */}
+          {children}
           <Footer />
+          <ToastContainer position="top-right" autoClose={3000} /> 
         </CartProvider>
       </body>
     </html>
+    </ClerkProvider>
   );
 }

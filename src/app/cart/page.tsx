@@ -1,115 +1,96 @@
-"use client"
-import { useCart } from '@/context/CartContext'; 
+"use client";
+
+import React from 'react';
+import { useCart } from "@/context/CartContext";
 import Image from "next/image";
-import LastSection from "../components/Lastsection";
+import { CartItem } from "@/context/CartContext";
 import Link from 'next/link';
 
-export default function Cart() {
+const CartPage = () => {
   const { cart, removeFromCart, updateQuantity } = useCart();
 
-  // Calculate totals
-  const subtotal = cart.reduce((total, product) => total + product.price * product.quantity, 0);
-  const total = subtotal; // Add shipping or other fees if needed
+  const calculateSubtotal = (item: CartItem) => item.price * item.quantity;
+
+  const calculateGrandTotal = () => {
+    return cart.reduce((total, item) => total + calculateSubtotal(item), 0);
+  };
 
   return (
-    <div className="min-h-screen">
-      {/* Header */}
-      <div className="relative w-full h-[316px]">
-        <Image src="/shop1.png" alt="background-shop" fill className="object-cover" />
-        <Image
-          src="/mh.png"
-          className="absolute w-[50px] h-[41px] top-10 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-          alt="Logo"
-          width={50}
-          height={41}
-        />
-        <h2 className="absolute text-5xl font-medium top-20 left-1/2 transform -translate-x-1/2 text-black">Cart</h2>
-        <div className="absolute flex items-center space-x-2 top-36 left-1/2 transform -translate-x-1/2">
-          <h3 className="text-black"> <Link href="/.">  Home </Link> </h3>
-          <Image src="/arw.png" alt="arrow" width={20} height={20} />
-          <h3 className="text-gray-500"><Link href="/cart">  Cart </Link></h3>
-        </div>
-      </div>
+    <div className="container bg-[#F9F1E7] mx-auto p-6">
+      <h2 className="text-3xl font-bold text-center mb-6">Shopping Cart</h2>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Cart Table */}
-        <div className="col-span-2">
-          <div className="bg-white shadow rounded-lg p-4 sm:p-6">
-            {cart.length > 0 ? (
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="text-left bg-[#F9F1E7]">
-                    <th className="py-3 px-2 sm:px-4 text-sm sm:text-base">Product</th>
-                    <th className="py-3 px-2 sm:px-4 text-sm sm:text-base">Price</th>
-                    <th className="py-3 px-2 sm:px-4 text-sm sm:text-base">Quantity</th>
-                    <th className="py-3 px-2 sm:px-4 text-sm sm:text-base">Subtotal</th>
-                    <th className="py-3 px-2 sm:px-4 text-sm sm:text-base">Remove</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {cart.map((product) => (
-                    <tr className="border-t" key={product.slug.current}>
-                      <td className="py-4 px-2 sm:px-4 flex items-center">
-                        {/* <Image
-                          src={product.imageUrl}
-                          alt={product.title}
-                          width={108}
-                          height={105}
-                          className="w-12 h-12 sm:w-16 sm:h-16 rounded object-cover mr-2 sm:mr-4"
-                        /> */}
-                        <span className="font-medium text-sm sm:text-base">{product.title}</span>
-                      </td>
-                      <td className="py-4 px-2 sm:px-4 text-sm sm:text-base">Rs. {product.price}</td>
-                      <td className="py-4 px-2 sm:px-4">
-                        <input
-                          type="number"
-                          value={product.quantity}
-                          min="1"
-                          className="w-10 sm:w-12 border rounded text-center text-sm sm:text-base"
-                          onChange={(e) => updateQuantity(product.slug.current, parseInt(e.target.value))}
-                        />
-                      </td>
-                      <td className="py-4 px-2 sm:px-4 text-sm sm:text-base">Rs. {product.price * product.quantity}</td>
-                      <td className="py-4 px-2 sm:px-4 text-sm sm:text-base">
-                        <button
-                          onClick={() => removeFromCart(product.slug.current)}
-                          className="text-red-500 hover:text-red-700"
-                        >
-                          Remove
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <p>Your cart is empty.</p>
-            )}
-          </div>
-        </div>
+      {cart.length === 0 ? (
+        <p className="text-center text-gray-500">Your cart is empty.</p>
+      ) : (
+        <div> {/* Added a wrapping div for better layout control */}
+          <table className="w-full border-collapse table-auto">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="p-2 text-left md:text-center">Image</th>
+                <th className="p-2 text-left">Product</th>
+                <th className="p-2 text-left">Price</th>
+                <th className="p-2 text-left">Qty</th>
+                <th className="p-2 text-right">Subtotal</th>
+                <th className="p-2 text-center">Remove</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cart.map((item: CartItem) => (
+                <tr key={item.id} className="border-b hover:bg-gray-50">
+                  <td className="p-2 text-center">
+                    <Image src={item.imageUrl} alt={item.title} width={80} height={80} className="rounded-lg object-contain" />
+                  </td>
+                  <td className="p-2">{item.title}</td>
+                  <td className="p-2">${item.price}</td>
+                  <td className="p-2 flex items-center justify-center">
+                    <button
+                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                      className="px-2 py-1 rounded border disabled:opacity-50"
+                      disabled={item.quantity <= 1}
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      value={item.quantity}
+                      onChange={(e) => updateQuantity(item.id, Number(e.target.value))}
+                      className="w-12 text-center border rounded"
+                    />
+                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="px-2 py-1 rounded border">
+                      +
+                    </button>
+                  </td>
+                  <td className="p-2 text-right">${calculateSubtotal(item)}</td>
+                  <td className="p-2 text-center">
+                    <button onClick={() => removeFromCart(item.id)} className="text-red-500 hover:underline">
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colSpan={5} className="text-right font-bold text-xl p-2">
+                  Grand Total:
+                </td>
+                <td className="font-bold text-xl p-2 text-right">${calculateGrandTotal()}</td>
+              </tr>
+            </tfoot>
+          </table>
 
-        {/* Cart Totals */}
-        <div className="bg-[#F9F1E7] text-center shadow rounded-lg p-4 sm:p-6">
-          <h2 className="text-[32px] sm:text-2xl font-semibold text-black border-b pb-2 sm:pb-4 mb-4">
-            Cart Totals
-          </h2>
-          <div className="text-sm sm:text-lg">
-            <div className="flex justify-between py-2">
-              <span>Subtotal</span>
-              <span className="font-medium">Rs. {subtotal}</span>
-            </div>
-            <div className="flex justify-between py-2 border-t">
-              <span>Total</span>
-              <span className="font-bold text-[#B88E2F]">Rs. {total}</span>
-            </div>
+          {/* Checkout Button */}
+          <div className="mt-4 text-center">
+            <Link href="/checkout">
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Checkout
+              </button>
+            </Link>
           </div>
-          <button className="w-[222px] h-[59px] mt-4 sm:mt-6 border-[1px] border-black text-black py-2 rounded-[15px] text-xl font-normal sm:text-base">
-           <Link href="/checkout">Check Out</Link> 
-          </button>
-        </div>
-      </div>
-      <LastSection />
+        </div> // Close the wrapping div
+      )}
     </div>
   );
-}
+};
+
+export default CartPage;

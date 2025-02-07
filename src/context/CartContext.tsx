@@ -1,90 +1,78 @@
 "use client";
 
-import { Product } from '@/types/Product';
-import { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode } from "react";
+
+export interface CartItem {
+  id: string; // Consistent id
+  title: string;
+  price: number;
+  imageUrl: string;
+  quantity: number;
+}
 
 interface CartContextType {
-  cart: Product[];
-  favorites: Product[];
-  addToCart: (product: Product) => void;
-  removeFromCart: (slug: string) => void;
-  updateQuantity: (slug: string, quantity: number) => void;
-  addToFavorites: (product: Product) => void;
-  removeFromFavorites: (slug: string) => void;
-  showPopup: boolean;
-  setShowPopup: (show: boolean) => void;
-  popupMessage: string;
+  cart: CartItem[];
+  addToCart: (product: CartItem) => void;
+  removeFromCart: (id: string) => void;
+  updateQuantity: (id: string, quantity: number) => void;
+  favorites: CartItem[];
+  addToFavorites: (product: CartItem) => void;
+  removeFromFavorites: (id: string) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cart, setCart] = useState<Product[]>([]);
-  const [favorites, setFavorites] = useState<Product[]>([]);
-  const [showPopup, setShowPopup] = useState<boolean>(false);
-  const [popupMessage, setPopupMessage] = useState<string>(''); 
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [favorites, setFavorites] = useState<CartItem[]>([]);
 
-  const showPopupMessage = (message: string) => {
-    setPopupMessage(message);
-    setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 3000); 
+  const addToCart = (product: CartItem) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((item) => item.id === product.id);
+      if (existingItem) {
+        return prevCart.map((item) =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      }
+      return [...prevCart, { ...product, quantity: 1 }];
+    });
   };
 
-  const addToCart = (product: Product) => {
-    const existingProduct = cart.find((p) => p.slug.current === product.slug.current); 
-    if (existingProduct) {
-      setCart((prevCart) =>
-        prevCart.map((p) =>
-          p.slug.current === product.slug.current
-            ? { ...p, quantity: p.quantity + 1 }
-            : p
-        )
-      );
-    } else {
-      setCart((prevCart) => [...prevCart, { ...product, quantity: 1 }]);
-    }
-    showPopupMessage("Added to cart!");
+  const removeFromCart = (id: string) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
-  const removeFromCart = (slug: string) => {
-    setCart((prevCart) => prevCart.filter((product) => product.slug.current !== slug));
-  };
-
-  const updateQuantity = (slug: string, quantity: number) => {
+  const updateQuantity = (id: string, quantity: number) => {
     setCart((prevCart) =>
-      prevCart.map((product) =>
-        product.slug.current === slug 
-          ? { ...product, quantity } 
-          : product
+      prevCart.map((item) =>
+        item.id === id ? { ...item, quantity: Math.max(1, Number(quantity) || 1) } : item
       )
     );
   };
 
-  const addToFavorites = (product: Product) => {
-    const existingProduct = favorites.find((p) => p.slug.current === product.slug.current);
-    if (!existingProduct) {
-      setFavorites((prevFavorites) => [...prevFavorites, product]);
-      showPopupMessage("Added to favorites!");
-    }
+  const addToFavorites = (product: CartItem) => {
+    setFavorites((prevFavorites) => {
+      if (!prevFavorites.find((item) => item.id === product.id)) {
+        return [...prevFavorites, product];
+      }
+      return prevFavorites;
+    });
   };
 
-  const removeFromFavorites = (slug: string) => {
-    setFavorites((prevFavorites) => prevFavorites.filter((product) => product.slug.current !== slug));
+  const removeFromFavorites = (id: string) => {
+    setFavorites((prevFavorites) => prevFavorites.filter((item) => item.id !== id));
   };
 
   return (
-    <CartContext.Provider 
-      value={{ 
-        cart, 
-        favorites, 
-        addToCart, 
-        removeFromCart, 
-        updateQuantity, 
-        addToFavorites, 
-        removeFromFavorites, 
-        showPopup, 
-        setShowPopup, 
-        popupMessage 
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        favorites,
+        addToFavorites,
+        removeFromFavorites,
       }}
     >
       {children}

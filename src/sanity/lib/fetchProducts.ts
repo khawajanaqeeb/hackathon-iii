@@ -8,6 +8,7 @@ export async function fetchProducts() {
     description,
     price,
     "imageUrl": productImage.asset->url,
+    slug { current },
     tags,
     discountPercentage,
     isNew
