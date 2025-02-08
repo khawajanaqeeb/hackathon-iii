@@ -1,17 +1,16 @@
-"use client"
-
+"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { SignedIn, SignedOut, SignInButton, UserButton,  } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 export default function Header(data: any) {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to manage the mobile menu
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen); // Toggle menu visibility
 
   return (
-    <div className={`${data.font.className} bg-[#FFFFFF]`}>
+    <div className={`${data.font.className} bg-[#FFFFFF] fixed top-0 left-0 w-full z-50 shadow-md`}>
       <div className="flex items-center justify-between px-4 py-4 md:px-8">
         {/* Logo Section */}
         <div className="flex items-center">
@@ -20,7 +19,7 @@ export default function Header(data: any) {
             alt="Logo"
             width={50}
             height={41}
-            className="w-[50px] h-[41px]" 
+            className="w-[50px] h-[41px]"
           />
           <h2 className="text-[24px] md:text-[34px] font-bold text-[#000000] ml-2">
             Furniro
@@ -67,15 +66,13 @@ export default function Header(data: any) {
 
       {/* Mobile Menu (Visibility controlled by state) */}
       {isMenuOpen && (
-        <div className="md:hidden flex flex-col items-center space-y-4 text-sm font-semibold text-black bg-white p-4 w-full">
-          <ul>
+        <div className="md:hidden fixed top-16 left-0 w-full bg-white shadow-lg z-40">
+          <ul className="flex flex-col items-center space-y-4 text-sm font-semibold text-black p-4">
             <li><Link href="/">Home</Link></li>
             <li><Link href="/shop">Shop</Link></li>
             <li><Link href="/blog">Blog</Link></li>
             <li><Link href="/contact">Contact</Link></li>
           </ul>
-
-          
         </div>
       )}
     </div>
