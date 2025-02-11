@@ -67,7 +67,7 @@ export default function Header(data: any) {
       {/* Mobile Menu (Visibility controlled by state) */}
       {isMenuOpen && (
         <div className="md:hidden fixed top-16 left-0 w-full bg-white shadow-lg z-40">
-          <ul className="flex flex-col items-center space-y-4 text-sm font-semibold text-black p-4">
+          <ul className="flex flex-row items-center justify-center space-x-6 text-sm font-semibold text-black p-4">
             <li><Link href="/">Home</Link></li>
             <li><Link href="/shop">Shop</Link></li>
             <li><Link href="/blog">Blog</Link></li>

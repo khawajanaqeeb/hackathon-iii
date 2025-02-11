@@ -1,4 +1,5 @@
-"use client";
+'use client'
+
 
 import { useEffect, useState } from "react";
 import { fetchProducts } from "@/sanity/lib/fetchProducts";
@@ -64,7 +65,11 @@ const ProductList = () => {
       quantity: 1,
     };
     addToCart(cartItem);
-    toast.success(`${product.title} added to cart!`);
+    toast.success(`${product.title} added to cart!`, {
+      position: "bottom-right", // Positioning it in the top-right
+      className: "toast-container", // Custom class for styling
+      autoClose: 2000, // Auto close after 2 seconds
+    });
   };
 
   const handleAddToFavorites = (product: Product) => {
@@ -76,7 +81,11 @@ const ProductList = () => {
       quantity: 1,
     };
     addToFavorites(favoriteItem);
-    toast.success(`${product.title} added to favorites!`);
+    toast.success(`${product.title} added to favorites!`, {
+      position: "bottom-right", // Positioning it in the top-right
+      className: "toast-container", // Custom class for styling
+      autoClose: 2000, // Auto close after 2 seconds
+    });
   };
 
   return (
